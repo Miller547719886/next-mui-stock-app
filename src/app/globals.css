@@ -1,0 +1,24 @@
+@tailwind components;
+@tailwind utilities;
+
+/* 移除@tailwind base以避免与MUI的CssBaseline冲突 */
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* 移除body样式，让MUI的CssBaseline负责基础样式 */
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

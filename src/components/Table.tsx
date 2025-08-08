@@ -1,0 +1,201 @@
+'use client';
+
+import { useRef, useEffect } from 'react';
+import { 
+  Box, 
+  Typography, 
+  Table as MuiTable,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Paper
+} from '@mui/material';
+import TableSkeleton from './skeletons/TableSkeleton';
+import { useStockStore, getDisplayDateRangeByPeriod } from '../store/stockStore';
+
+interface RevenueData {
+  date: string;
+  stock_id?: string;
+  revenue: number;
+  revenue_month: number;
+  revenue_year: number;
+}
+
+interface TableProps {
+  revenueData: RevenueData[];
+  loading?: boolean;
+}
+
+export default function Table({ revenueData, loading = false }: TableProps) {
+  const { timeRangePeriod } = useStockStore();
+  const tableContainerRef = useRef<HTMLDivElement>(null);
+
+  // Filter data to display range only
+  const displayRange = getDisplayDateRangeByPeriod(timeRangePeriod);
+  const filteredRevenueData = revenueData.filter(item => {
+    return item.date >= displayRange.startDate && item.date <= displayRange.endDate;
+  });
+
+  useEffect(() => {
+    if (tableContainerRef.current && filteredRevenueData.length > 0) {
+      tableContainerRef.current.scrollLeft = tableContainerRef.current.scrollWidth;
+    }
+  }, [filteredRevenueData]);
+
+  if (loading) {
+    return <TableSkeleton />;
+  }
+
+  // Check if there's no data to display
+  if (!revenueData || revenueData.length === 0) {
+    return (
+      <Box>
+        <Box display="flex" alignItems="center" mb={2}>
+          <Typography variant="h6">
+            月營收數據表
+          </Typography>
+        </Box>
+        <Box 
+          display="flex" 
+          justifyContent="center" 
+          alignItems="center" 
+          height={200}
+          sx={{ 
+            border: '1px dashed',
+            borderColor: 'divider',
+            borderRadius: 1,
+            backgroundColor: 'grey.50'
+          }}
+        >
+          <Typography variant="body1" color="text.secondary">
+            暫無數據
+          </Typography>
+        </Box>
+      </Box>
+    );
+  }
+
+  const formatRevenue = (value: number) => {
+    const thousands = (value / 1000).toFixed(0);
+    return Number(thousands).toLocaleString();
+  };
+
+  const calculateYearOverYearGrowth = (currentRevenue: number, currentDate: string) => {
+    const current = new Date(currentDate);
+    const lastYear = new Date(current.getFullYear() - 1, current.getMonth(), 1);
+    const lastYearStr = `${lastYear.getFullYear()}-${String(lastYear.getMonth() + 1).padStart(2, '0')}-01`;
+    
+    const lastYearData = revenueData.find(item => item.date === lastYearStr);
+    if (!lastYearData) return null;
+    
+    // Handle edge case: when lastYearData.revenue is 0, use 1000 to avoid Infinity
+    // This prevents calculation errors and provides reasonable scale for growth rate calculation
+    return ((currentRevenue - lastYearData.revenue) / (lastYearData.revenue || 1000) * 100);
+  };
+
+  return (
+    <Box>
+      <Box display="flex" alignItems="center" mb={2}>
+        <Typography variant="h6">
+          月營收數據表
+        </Typography>
+      </Box>
+      <Box mb={1}>
+        <Typography variant="caption" color="text.secondary">
+          註：當月營收為0時，以1000为最小值來計算年增率
+        </Typography>
+      </Box>
+      
+      <TableContainer 
+        component={Paper} 
+        variant="outlined"
+        ref={tableContainerRef}
+        sx={{ 
+          maxHeight: 200, 
+          overflowX: 'auto',
+          '&::-webkit-scrollbar': {
+            height: 8,
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: '#f1f1f1',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#888',
+            borderRadius: 4,
+          },
+        }}
+      >
+        <MuiTable size="small">
+          <TableBody>
+            {/* Header Row */}
+            <TableRow sx={{ backgroundColor: 'grey.100' }}>
+              <TableCell sx={{ 
+                minWidth: 120, 
+                position: 'sticky', 
+                left: 0, 
+                backgroundColor: 'grey.100', 
+                zIndex: 2,
+                fontWeight: 'bold',
+                borderRight: '1px solid',
+                borderRightColor: 'divider'
+              }}>
+                年份/月份
+              </TableCell>
+              {filteredRevenueData.map((item) => (
+                <TableCell key={item.date} align="center" sx={{ minWidth: 100, fontWeight: 'bold' }}>
+                  {item.revenue_year}年{String(item.revenue_month).padStart(2, '0')}月
+                </TableCell>
+              ))}
+            </TableRow>
+            
+            {/* Data Rows */}
+            <TableRow>
+              <TableCell sx={{ 
+                fontWeight: 'bold', 
+                position: 'sticky', 
+                left: 0, 
+                backgroundColor: 'background.paper', 
+                zIndex: 1,
+                borderRight: '1px solid',
+                borderRightColor: 'divider'
+              }}>
+                每月營收(千元)
+              </TableCell>
+              {filteredRevenueData.map((item) => (
+                <TableCell key={item.date} align="center">
+                  {formatRevenue(item.revenue)}
+                </TableCell>
+              ))}
+            </TableRow>
+            <TableRow>
+              <TableCell sx={{ 
+                fontWeight: 'bold', 
+                position: 'sticky', 
+                left: 0, 
+                backgroundColor: 'background.paper', 
+                zIndex: 1,
+                borderRight: '1px solid',
+                borderRightColor: 'divider'
+              }}>
+                單月營收年增率(%)
+              </TableCell>
+              {filteredRevenueData.map((item) => {
+                const growthRate = calculateYearOverYearGrowth(item.revenue, item.date);
+                return (
+                  <TableCell 
+                    key={item.date} 
+                    align="center"
+                    sx={{ color: growthRate !== null && growthRate >= 0 ? 'success.main' : growthRate !== null ? 'error.main' : 'text.secondary' }}
+                  >
+                    {growthRate !== null ? `${growthRate.toFixed(2)}%` : '-'}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          </TableBody>
+        </MuiTable>
+      </TableContainer>
+    </Box>
+  );
+}
