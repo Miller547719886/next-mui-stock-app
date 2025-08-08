@@ -63,7 +63,7 @@ export default function TimeFilter() {
               onChange={handleStartDateChange}
               format="yyyy-MM-dd"
               slotProps={{
-                textField: { size: 'small', sx: { width: 160 } }
+                textField: { size: 'small', sx: { width: 170 } }
               }}
             />
             <Typography variant="body2">至</Typography>
@@ -74,7 +74,7 @@ export default function TimeFilter() {
               format="yyyy-MM-dd"
               minDate={customStartDate || undefined}
               slotProps={{
-                textField: { size: 'small', sx: { width: 160 } }
+                textField: { size: 'small', sx: { width: 170 } }
               }}
             />
           </Stack>
