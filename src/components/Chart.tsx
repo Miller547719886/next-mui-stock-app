@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Box, Typography, Button, Stack } from '@mui/material';
 import ChartSkeleton from './skeletons/ChartSkeleton';
 import { useStockStore, getDisplayDateRangeByPeriod } from '../store/stockStore';
+import { RevenueData } from '../types/common';
 import {
   ComposedChart,
   Line,
@@ -12,17 +13,8 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer
 } from 'recharts';
-
-interface RevenueData {
-  date: string;
-  stock_id?: string;
-  revenue: number;
-  revenue_month: number;
-  revenue_year: number;
-}
 
 interface ChartProps {
   revenueData: RevenueData[];

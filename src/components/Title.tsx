@@ -11,10 +11,6 @@ interface TitleProps {
 export default function Title({ loading = false }: TitleProps) {
   const { selectedStock } = useStockStore();
 
-  const displayTitle = selectedStock 
-    ? `${selectedStock.stock_name}(${selectedStock.stock_id})`
-    : '股票名稱(股票代號)';
-
   return (
     <Card sx={{ mb: 3 }}>
       <CardContent sx={{ pt: '24px' }}>

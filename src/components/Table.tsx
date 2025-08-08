@@ -13,14 +13,7 @@ import {
 } from '@mui/material';
 import TableSkeleton from './skeletons/TableSkeleton';
 import { useStockStore, getDisplayDateRangeByPeriod } from '../store/stockStore';
-
-interface RevenueData {
-  date: string;
-  stock_id?: string;
-  revenue: number;
-  revenue_month: number;
-  revenue_year: number;
-}
+import { RevenueData } from '../types/common';
 
 interface TableProps {
   revenueData: RevenueData[];

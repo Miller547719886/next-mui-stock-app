@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { StockInfo } from '../api/finmind';
 
 /**
  * 时间范围类型定义
@@ -13,18 +14,6 @@ export type TimeRangePeriod = 'one_year' | 'three_years' | 'five_years' | 'eight
 interface DateRange {
   startDate: string; // 格式: YYYY-MM-DD
   endDate: string;   // 格式: YYYY-MM-DD
-}
-
-/**
- * 股票信息接口
- * 从API返回的股票基本信息
- */
-interface StockInfo {
-  stock_id: string;        // 股票代码，如 "2330"
-  stock_name: string;      // 股票名称，如 "台积电"
-  industry_category: string; // 行业分类
-  type: string;            // 股票类型
-  date: string;            // 数据日期
 }
 
 /**
