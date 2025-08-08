@@ -6,12 +6,8 @@ import CardContent from '@mui/material/CardContent';
 import TitleSkeleton from './skeletons/TitleSkeleton';
 import { useStockStore } from '../store/stockStore';
 
-interface TitleProps {
-  loading?: boolean;
-}
-
-export default function Title({ loading = false }: TitleProps) {
-  const { selectedStock } = useStockStore();
+export default function Title() {
+  const { selectedStock, isStockSwitching } = useStockStore();
 
   return (
     <Card sx={{ mb: 3, minHeight: '100px' }}>
@@ -24,7 +20,7 @@ export default function Title({ loading = false }: TitleProps) {
           justifyContent: 'center'
         }}
       >
-        {loading ? (
+        {isStockSwitching ? (
           <TitleSkeleton />
         ) : (
           <>

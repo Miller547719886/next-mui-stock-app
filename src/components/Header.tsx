@@ -13,7 +13,7 @@ import { useStockInfo } from '../api/hooks';
 
 export default function Header() {
   const router = useRouter();
-  const { selectedStock, cachedTopStocks, setCachedTopStocks } = useStockStore();
+  const { selectedStock, cachedTopStocks, setCachedTopStocks, setIsStockSwitching } = useStockStore();
   const { data: stockList = [], isLoading } = useStockInfo();
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
@@ -75,6 +75,7 @@ export default function Header() {
             value={selectedStock}
             onChange={(event, newValue) => {
               if (newValue) {
+                setIsStockSwitching(true); // 开始股票切换
                 router.push(`/stock/${newValue.stock_id}`);
               }
             }}

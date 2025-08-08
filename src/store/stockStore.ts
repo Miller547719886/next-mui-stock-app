@@ -30,6 +30,7 @@ interface StockStore {
   timeRangePeriod: TimeRangePeriod;  // 用户选择的时间范围
   dateRange: DateRange;              // 计算出的具体日期范围（用于UI显示）
   cachedTopStocks: StockInfo[];      // 缓存的热门股票列表，避免重复查询
+  isStockSwitching: boolean;         // 股票切换中的loading状态
   
   // === 行为方法 ===
   setSelectedStock: (stock: StockInfo | null) => void;  // 设置选中股票
@@ -37,6 +38,7 @@ interface StockStore {
   setDateRange: (range: DateRange) => void;             // 手动设置日期范围
   getApiDateRange: () => DateRange;                     // 获取API查询用的日期范围
   setCachedTopStocks: (stocks: StockInfo[]) => void;    // 设置缓存的股票列表
+  setIsStockSwitching: (switching: boolean) => void;    // 设置股票切换状态
 }
 
 /**
@@ -159,6 +161,7 @@ export const useStockStore = create<StockStore>((set, get) => ({
   timeRangePeriod: 'five_years',                     // 默认显示5年数据
   dateRange: getDisplayDateRangeByPeriod('five_years'), // 计算5年的显示范围
   cachedTopStocks: [],                               // 初始无缓存数据
+  isStockSwitching: false,                           // 初始不在切换状态
 
   // === 状态更新方法 ===
   
@@ -171,7 +174,8 @@ export const useStockStore = create<StockStore>((set, get) => ({
   setSelectedStock: (stock) => set({ 
     selectedStock: stock, 
     selectedStockId: stock?.stock_id || null,
-    dateRange: getDisplayDateRangeByPeriod(get().timeRangePeriod)
+    dateRange: getDisplayDateRangeByPeriod(get().timeRangePeriod),
+    isStockSwitching: false // 设置股票信息时，结束切换状态
   }),
 
   /**
@@ -207,4 +211,10 @@ export const useStockStore = create<StockStore>((set, get) => ({
    * 用于在组件间快速共享不经常变化的数据
    */
   setCachedTopStocks: (stocks) => set({ cachedTopStocks: stocks }),
+
+  /**
+   * 设置股票切换状态
+   * 用于在股票切换过程中显示loading状态
+   */
+  setIsStockSwitching: (switching) => set({ isStockSwitching: switching }),
 }));

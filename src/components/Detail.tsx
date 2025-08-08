@@ -34,7 +34,7 @@ export default function Detail() {
       sx={{ pt: layoutConfig.padding.top, pb: layoutConfig.padding.bottom }}
       aria-label="股票數據主要內容"
     >
-      <Title loading={loading} />
+      <Title />
       
       {/* Time Filter Card */}
       <Card sx={{ mb: 3 }}>
