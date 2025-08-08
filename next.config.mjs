@@ -8,6 +8,8 @@ const bundleAnalyzer = withBundleAnalyzer({
 const nextConfig = {
   experimental: {
     optimizePackageImports: ['@mui/material', '@mui/icons-material', 'recharts', 'lodash'],
+    // 启用并发特性
+    serverComponentsExternalPackages: ['@emotion/server'],
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
