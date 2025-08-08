@@ -1,7 +1,10 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Box, Container, Autocomplete, TextField } from '@mui/material';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import { debounce } from 'lodash';
 import { useRouter } from 'next/navigation';
 import { layoutConfig } from '../store/config';

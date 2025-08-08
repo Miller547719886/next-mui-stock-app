@@ -1,13 +1,20 @@
 'use client';
 
-import { Container, Card, CardContent } from '@mui/material';
+import Container from '@mui/material/Container';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import { layoutConfig } from '../store/config';
 import { useStockStore } from '../store/stockStore';
 import { useMonthlyRevenue } from '../api/hooks';
+import { lazy, Suspense } from 'react';
 import Title from './Title';
-import Chart from './Chart';
-import Table from './Table';
 import TimeFilter from './TimeFilter';
+import ChartSkeleton from './skeletons/ChartSkeleton';
+import TableSkeleton from './skeletons/TableSkeleton';
+
+// 懒加载图表和表格组件
+const Chart = lazy(() => import('./Chart'));
+const Table = lazy(() => import('./Table'));
 
 export default function Detail() {
   const { selectedStockId, getApiDateRange } = useStockStore();
@@ -31,10 +38,21 @@ export default function Detail() {
       </Card>
       
       {/* Chart and Table Card */}
-      <Card>
-        <CardContent>
-          <Chart revenueData={revenueData} loading={loading} />
-          <Table revenueData={revenueData} loading={loading} />
+      <Card sx={{ minHeight: '831px' }}>
+        <CardContent 
+          sx={{ 
+            minHeight: 'inherit',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start'
+          }}
+        >
+          <Suspense fallback={<ChartSkeleton />}>
+            <Chart revenueData={revenueData} loading={loading} />
+          </Suspense>
+          <Suspense fallback={<TableSkeleton />}>
+            <Table revenueData={revenueData} loading={loading} />
+          </Suspense>
         </CardContent>
       </Card>
     </Container>

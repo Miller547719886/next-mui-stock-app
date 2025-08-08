@@ -1,6 +1,8 @@
 'use client';
 
-import { Typography, Card, CardContent } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import TitleSkeleton from './skeletons/TitleSkeleton';
 import { useStockStore } from '../store/stockStore';
 
@@ -12,8 +14,16 @@ export default function Title({ loading = false }: TitleProps) {
   const { selectedStock } = useStockStore();
 
   return (
-    <Card sx={{ mb: 3 }}>
-      <CardContent sx={{ pt: '24px' }}>
+    <Card sx={{ mb: 3, minHeight: '100px' }}>
+      <CardContent 
+        sx={{ 
+          pt: '24px',
+          minHeight: 'inherit',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center'
+        }}
+      >
         {loading ? (
           <TitleSkeleton />
         ) : (

@@ -1,16 +1,14 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
-import { 
-  Box, 
-  Typography, 
-  Table as MuiTable,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  Paper
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import MuiTable from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import TableSkeleton from './skeletons/TableSkeleton';
 import { useStockStore, getDisplayDateRangeByPeriod } from '../store/stockStore';
 import { RevenueData } from '../types/common';

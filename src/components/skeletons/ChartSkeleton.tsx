@@ -1,34 +1,38 @@
-import { Box, Skeleton, Stack } from '@mui/material';
+import Box from '@mui/material/Box';
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
 
 export default function ChartSkeleton() {
   return (
-    <Box sx={{ mb: 3 }}>
+    <Box sx={{ mb: 3, minHeight: '500px' }}>
+      {/* 标题区域 */}
       <Box display="flex" alignItems="center" mb={2}>
-        <Skeleton variant="circular" width={24} height={24} sx={{ mr: 1 }} />
         <Skeleton variant="text" width={120} height={32} />
       </Box>
       
-      <Stack spacing={1} mb={3}>
-        <Skeleton variant="text" width="90%" height={20} />
-        <Skeleton variant="text" width="85%" height={20} />
-        <Skeleton variant="text" width="80%" height={20} />
-      </Stack>
-      
-      <Box mb={4}>
-        <Skeleton variant="text" width={200} height={24} sx={{ mb: 1 }} />
-        <Skeleton variant="rectangular" width="100%" height={200} />
-      </Box>
-
-      <Box mb={3}>
-        <Skeleton variant="text" width={220} height={24} sx={{ mb: 1 }} />
-        <Skeleton variant="rectangular" width="100%" height={200} />
-      </Box>
-
-      <Stack spacing={0.5}>
-        <Skeleton variant="text" width="70%" height={16} />
+      {/* 说明文字 */}
+      <Box mb={1}>
         <Skeleton variant="text" width="60%" height={16} />
-        <Skeleton variant="text" width="75%" height={16} />
-      </Stack>
+      </Box>
+      
+      {/* Y轴标签 */}
+      <Box display="flex" justifyContent="space-between" mb={1} px={10}>
+        <Skeleton variant="text" width={80} height={16} />
+        <Skeleton variant="text" width={80} height={16} />
+      </Box>
+      
+      {/* 主图表区域 - 匹配Chart组件的400px高度 */}
+      <Box mb={2}>
+        <Skeleton variant="rectangular" width="100%" height={400} sx={{ borderRadius: 1 }} />
+      </Box>
+      
+      {/* 图例按钮区域 */}
+      <Box display="flex" justifyContent="center">
+        <Stack direction="row" spacing={2}>
+          <Skeleton variant="rounded" width={100} height={36} />
+          <Skeleton variant="rounded" width={80} height={36} />
+        </Stack>
+      </Box>
     </Box>
   );
 }

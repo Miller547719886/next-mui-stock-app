@@ -1,19 +1,7 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import ThemeRegistry from '../theme/ThemeRegistry';
 import Providers from '../store/providers';
 import "./globals.css";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
 
 export const metadata: Metadata = {
   title: "股票月营收分析",
@@ -28,14 +16,34 @@ export default function RootLayout({
   return (
     <html lang="zh-TW">
       <head>
-        <link rel="preload" href="/fonts/GeistVF.woff" as="font" type="font/woff" crossOrigin="" />
-        <link rel="preload" href="/fonts/GeistMonoVF.woff" as="font" type="font/woff" crossOrigin="" />
+        {/* 预加载关键CSS */}
+        <link rel="preload" href="/_next/static/css/app/layout.css" as="style" />
+        <link rel="preload" href="/_next/static/css/app/globals.css" as="style" />
+        
+        {/* DNS预解析 */}
+        <link rel="dns-prefetch" href="//api.finmindtrade.com" />
+        
+        {/* 预连接到关键第三方域名 */}
+        <link rel="preconnect" href="//fonts.googleapis.com" crossOrigin="" />
+        <link rel="preconnect" href="//fonts.gstatic.com" crossOrigin="" />
+        
+        {/* 预加载关键JavaScript chunks */}
+        <link rel="modulepreload" href="/_next/static/chunks/webpack-runtime.js" />
+        <link rel="modulepreload" href="/_next/static/chunks/framework.js" />
+        <link rel="modulepreload" href="/_next/static/chunks/main.js" />
+        
         <style dangerouslySetInnerHTML={{
           __html: `
+            @font-face {
+              font-family: 'system-ui';
+              font-display: swap;
+              src: local('system-ui'), local('-apple-system'), local('BlinkMacSystemFont');
+            }
             body { 
               margin: 0; 
               background: white; 
-              font-family: system-ui, sans-serif;
+              font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+              font-display: swap;
             }
             .loading-screen {
               position: fixed;
@@ -55,9 +63,7 @@ export default function RootLayout({
           `
         }} />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable}`}
-      >
+      <body>
         <div className="loading-screen"></div>
         <ThemeRegistry>
           <Providers>

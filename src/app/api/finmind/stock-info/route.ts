@@ -25,7 +25,7 @@ export async function GET() {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        'Cache-Control': 'public, max-age=300' // 缓存5分钟
+        'Cache-Control': 'public, max-age=1800, s-maxage=3600, stale-while-revalidate=7200' // 30分钟缓存
       }
     });
   } catch (error) {
