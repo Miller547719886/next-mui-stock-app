@@ -54,6 +54,8 @@ export default function Header() {
 
   return (
     <Box 
+      component="header"
+      role="banner"
       position="fixed" 
       top={0} 
       left={0} 
@@ -63,6 +65,7 @@ export default function Header() {
       borderColor="divider"
       p={2}
       zIndex={1000}
+      aria-label="網站導航"
     >
       <Container maxWidth={layoutConfig.maxWidth}>
         <Box display="flex" alignItems="center" justifyContent="center" width="100%">
@@ -80,6 +83,7 @@ export default function Header() {
               debouncedFilter(value);
             }}
             filterOptions={(options) => options}
+            aria-label="搜尋股票"
             renderInput={(params) => (
               <TextField
                 {...params}

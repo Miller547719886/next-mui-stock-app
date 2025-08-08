@@ -44,12 +44,26 @@ export default function TimeFilter() {
   };
 
   return (
-    <Box mb={3}>
+    <Box mb={3} role="region" aria-labelledby="time-filter-title">
       <Box display="flex" alignItems="center" mb={2}>
-        <Typography variant="h6">
+        <Typography variant="h6" id="time-filter-title">
           時間範圍
         </Typography>
       </Box>
+      {/* 隱藏的描述文本供屏幕閱讀器使用 */}
+      <Typography 
+        id="date-range-description" 
+        variant="body2" 
+        sx={{ 
+          position: 'absolute',
+          left: '-10000px',
+          width: '1px',
+          height: '1px',
+          overflow: 'hidden'
+        }}
+      >
+        選擇要顯示數據的日期範圍，或使用預設的時間範圍選項
+      </Typography>
       <Stack direction="row" spacing={3} alignItems="center" justifyContent="space-between" flexWrap="wrap">
         {/* Left side: Date Range Picker */}
         <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -63,10 +77,17 @@ export default function TimeFilter() {
               onChange={handleStartDateChange}
               format="yyyy-MM-dd"
               slotProps={{
-                textField: { size: 'small', sx: { width: 170 } }
+                textField: { 
+                  size: 'small', 
+                  sx: { width: 170 },
+                  'aria-label': '選擇數據開始日期',
+                  inputProps: {
+                    'aria-describedby': 'date-range-description'
+                  }
+                }
               }}
             />
-            <Typography variant="body2">至</Typography>
+            <Typography variant="body2" aria-hidden="true">至</Typography>
             <DatePicker
               label="結束日期"
               value={customEndDate}
@@ -74,7 +95,14 @@ export default function TimeFilter() {
               format="yyyy-MM-dd"
               minDate={customStartDate || undefined}
               slotProps={{
-                textField: { size: 'small', sx: { width: 170 } }
+                textField: { 
+                  size: 'small', 
+                  sx: { width: 170 },
+                  'aria-label': '選擇數據結束日期',
+                  inputProps: {
+                    'aria-describedby': 'date-range-description'
+                  }
+                }
               }}
             />
           </Stack>
@@ -90,11 +118,32 @@ export default function TimeFilter() {
             exclusive
             onChange={handleTimeRangeChange}
             size="small"
+            aria-label="選擇時間範圍"
           >
-            <ToggleButton value="one_year">近一年</ToggleButton>
-            <ToggleButton value="three_years">近三年</ToggleButton>
-            <ToggleButton value="five_years">近五年</ToggleButton>
-            <ToggleButton value="eight_years">近八年</ToggleButton>
+            <ToggleButton 
+              value="one_year"
+              aria-label="顯示近一年的數據"
+            >
+              近一年
+            </ToggleButton>
+            <ToggleButton 
+              value="three_years"
+              aria-label="顯示近三年的數據"
+            >
+              近三年
+            </ToggleButton>
+            <ToggleButton 
+              value="five_years"
+              aria-label="顯示近五年的數據"
+            >
+              近五年
+            </ToggleButton>
+            <ToggleButton 
+              value="eight_years"
+              aria-label="顯示近八年的數據"
+            >
+              近八年
+            </ToggleButton>
           </ToggleButtonGroup>
         </Stack>
       </Stack>

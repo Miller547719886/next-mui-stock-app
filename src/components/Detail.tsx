@@ -27,7 +27,13 @@ export default function Detail() {
   );
 
   return (
-    <Container maxWidth={layoutConfig.maxWidth} sx={{ pt: layoutConfig.padding.top, pb: layoutConfig.padding.bottom }}>
+    <Container 
+      component="main"
+      role="main"
+      maxWidth={layoutConfig.maxWidth} 
+      sx={{ pt: layoutConfig.padding.top, pb: layoutConfig.padding.bottom }}
+      aria-label="股票數據主要內容"
+    >
       <Title loading={loading} />
       
       {/* Time Filter Card */}

@@ -167,11 +167,31 @@ export default function Chart({ revenueData, loading }: ChartProps) {
         </Box>
         
         {/* Combined Chart */}
-        <Box mb={0}>
+        <Box 
+          mb={0} 
+          role="img" 
+          aria-label="股票月營收與年增率組合圖表"
+          aria-describedby="chart-description"
+        >
+          {/* 圖表描述，供屏幕閱讀器使用 */}
+          <Typography 
+            id="chart-description"
+            variant="body2"
+            sx={{ 
+              position: 'absolute',
+              left: '-10000px',
+              width: '1px',
+              height: '1px',
+              overflow: 'hidden'
+            }}
+          >
+            此組合圖表顯示選定時間範圍內的月營收柱狀圖和年增率折線圖。左側Y軸為營收（千元），右側Y軸為年增率（百分比）。可透過圖例按鈕控制顯示或隱藏不同數據系列。
+          </Typography>
           <ResponsiveContainer width="100%" height={400}>
             <ComposedChart 
               data={chartData}
               margin={{ top: 20, right: 50, left: 80, bottom: 20 }}
+              aria-hidden="true"
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis 
@@ -233,7 +253,13 @@ export default function Chart({ revenueData, loading }: ChartProps) {
         </Box>
         
         {/* 自定义Legend */}
-        <Box display="flex" justifyContent="center" mt={0}>
+        <Box 
+          display="flex" 
+          justifyContent="center" 
+          mt={0}
+          role="group"
+          aria-label="圖表圖例控制"
+        >
           <Stack direction="row" spacing={2}>
             {/* 
               自定义 Legend 按钮，左侧为圆点，右侧为文字，颜色与当前配置保持一致
@@ -242,8 +268,13 @@ export default function Chart({ revenueData, loading }: ChartProps) {
             <Button
               size="small"
               onClick={() => handleLegendClick('revenue')}
+              aria-label={`${visibleSeries.revenue ? '隱藏' : '顯示'}每月營收數據`}
+              aria-pressed={visibleSeries.revenue}
               sx={{
                 backgroundColor: 'transparent',
+                '&:hover': {
+                  backgroundColor: 'rgba(255, 152, 0, 0.08)',
+                },
               }}
             >
               {/* 左侧圆点 */}
@@ -254,14 +285,21 @@ export default function Chart({ revenueData, loading }: ChartProps) {
                   width: 12,
                   height: 12,
                   borderRadius: '50%',
-                  backgroundColor: visibleSeries.revenue ? '#ff9800' : '#9e9e9e',
+                  backgroundColor: visibleSeries.revenue ? '#ff9800' : '#757575',
                   mr: 1.2,
-                  border: visibleSeries.revenue ? '2px solid white' : '2px solid #9e9e9e',
+                  border: visibleSeries.revenue ? '2px solid white' : '2px solid #757575',
                   transition: 'all 0.2s'
                 }}
               />
-              {/* 右侧文字 */}
-              <Typography variant="body2" sx={{ color: visibleSeries.revenue ? '#ff9800' : '#9e9e9e', transition: 'color 0.2s' }}>
+              {/* 右侧文字 - 提高对比度 */}
+              <Typography 
+                variant="body2" 
+                sx={{ 
+                  color: visibleSeries.revenue ? '#e65100' : '#424242', 
+                  transition: 'color 0.2s',
+                  fontWeight: 500
+                }}
+              >
                 每月營收
               </Typography>
             </Button>
@@ -272,8 +310,13 @@ export default function Chart({ revenueData, loading }: ChartProps) {
             <Button
               size="small"
               onClick={() => handleLegendClick('growthRate')}
+              aria-label={`${visibleSeries.growthRate ? '隱藏' : '顯示'}月增率數據`}
+              aria-pressed={visibleSeries.growthRate}
               sx={{
                 backgroundColor: 'transparent',
+                '&:hover': {
+                  backgroundColor: 'rgba(244, 67, 54, 0.08)',
+                },
               }}
             >
               {/* 左侧圆点 */}
@@ -284,14 +327,21 @@ export default function Chart({ revenueData, loading }: ChartProps) {
                   width: 12,
                   height: 12,
                   borderRadius: '50%',
-                  backgroundColor: visibleSeries.growthRate ? '#f44336' : '#9e9e9e',
+                  backgroundColor: visibleSeries.growthRate ? '#f44336' : '#757575',
                   mr: 1.2,
-                  border: visibleSeries.growthRate ? '2px solid white' : '2px solid #9e9e9e',
+                  border: visibleSeries.growthRate ? '2px solid white' : '2px solid #757575',
                   transition: 'all 0.2s'
                 }}
               />
-              {/* 右侧文字 */}
-              <Typography variant="body2" sx={{ color: visibleSeries.growthRate ? '#f44336' : '#9e9e9e', transition: 'color 0.2s' }}>
+              {/* 右侧文字 - 提高对比度 */}
+              <Typography 
+                variant="body2" 
+                sx={{ 
+                  color: visibleSeries.growthRate ? '#c62828' : '#424242', 
+                  transition: 'color 0.2s',
+                  fontWeight: 500
+                }}
+              >
                 月增率
               </Typography>
             </Button>

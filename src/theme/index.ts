@@ -161,6 +161,34 @@ const theme = createTheme({
         },
       },
     },
+    
+    // ToggleButton 可访问性优化
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          color: '#424242', // 提高未选中状态的对比度
+          '&.Mui-selected': {
+            color: '#ffffff',
+            backgroundColor: '#1976d2',
+            '&:hover': {
+              backgroundColor: '#1565c0',
+            },
+          },
+          '&:hover': {
+            backgroundColor: 'rgba(25, 118, 210, 0.08)',
+          },
+        },
+      },
+    },
+    
+    // Typography 可访问性优化
+    MuiTypography: {
+      styleOverrides: {
+        body2: {
+          color: '#424242', // 确保辅助文本有足够的对比度
+        },
+      },
+    },
   },
 });
 
