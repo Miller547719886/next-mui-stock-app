@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import { layoutConfig } from '../store/config';
 import { useStockStore } from '../store/stockStore';
 import { useMonthlyRevenue } from '../api/hooks';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useMemo } from 'react';
 import Title from './Title';
 import TimeFilter from './TimeFilter';
 import ChartSkeleton from './skeletons/ChartSkeleton';
@@ -17,13 +17,12 @@ const Chart = lazy(() => import('./Chart'));
 const Table = lazy(() => import('./Table'));
 
 export default function Detail() {
-  const { selectedStockId, getApiDateRange } = useStockStore();
-  const apiDateRange = getApiDateRange();
+  const { selectedStockId, dateRange } = useStockStore();
 
   const { data: revenueData = [], isLoading: loading } = useMonthlyRevenue(
     selectedStockId || '2330',
-    apiDateRange.startDate,
-    apiDateRange.endDate
+    dateRange.startDate,
+    dateRange.endDate
   );
 
   return (
