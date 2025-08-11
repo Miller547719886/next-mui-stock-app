@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { layoutConfig } from '../store/config';
 import { useStockStore } from '../store/stockStore';
 import { useStockInfo } from '../api/hooks';
+import { StockInfo } from '@/api/finmind';
 
 export default function Header() {
   const router = useRouter();
@@ -45,7 +46,7 @@ export default function Header() {
     
     // 有输入内容时进行搜索过滤
     return stockList
-      .filter((option: any) => 
+      .filter((option: StockInfo) => 
         option.stock_id.includes(inputValue) || 
         option.stock_name.includes(inputValue)
       )
