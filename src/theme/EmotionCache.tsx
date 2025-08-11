@@ -47,7 +47,7 @@ export default function NextAppDirEmotionCacheProvider(props: NextAppDirEmotionC
     const inserted: string[] = [];
     const prevInsert = cache.insert;
     
-    cache.insert = (...args) => {
+    cache.insert = (...args: Parameters<typeof prevInsert>) => {
       const [, serialized] = args;
       
       if (cache.inserted[serialized.name] === undefined) {
