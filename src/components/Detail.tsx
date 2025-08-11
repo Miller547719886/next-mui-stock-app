@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import { layoutConfig } from '../store/config';
 import { useStockStore } from '../store/stockStore';
 import { useMonthlyRevenue } from '../api/hooks';
-import { lazy, Suspense, useMemo } from 'react';
+import { lazy, Suspense } from 'react';
 import Title from './Title';
 import TimeFilter from './TimeFilter';
 import ChartSkeleton from './skeletons/ChartSkeleton';

@@ -45,7 +45,7 @@ export default function Header() {
     
     // 有输入内容时进行搜索过滤
     return stockList
-      .filter(option => 
+      .filter((option: any) => 
         option.stock_id.includes(inputValue) || 
         option.stock_name.includes(inputValue)
       )
